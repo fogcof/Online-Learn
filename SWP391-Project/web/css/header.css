@@ -11,9 +11,6 @@
     width: 1.5vw; 
     border-radius: 50%
 }
-.a {
-    font-weight: bold;
-}
 
 @media only screen and (max-width: 991px) {
 

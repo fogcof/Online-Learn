@@ -8,6 +8,7 @@ package controller;
 import dal.BlogDAO;
 import dal.CourseDAO;
 import dal.PostDAO;
+import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Blog;
 import model.Course;
 import model.Post;
+import model.Slider;
 import model.Subject;
 
 /**
@@ -66,14 +68,14 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        CourseDAO cd = new CourseDAO();
-        List<Course> listFreeCourse = cd.getTop4FreeCourse();
-        List<Course> listFeeCourse = cd.getTop4FeeCourse();
         SubjectDAO sd = new SubjectDAO();
         List<Subject> listSubject = sd.getAll();
         PostDAO pd = new PostDAO();
-        List<Post> listEarlyPost = pd.getTop4Post("early");
-        List<Post> listLastestPost = pd.getTop4Post("lastest");
+        List<Post> listEarlyPost = pd.getTop4Posts("early");
+        List<Post> listLastestPost = pd.getTop4Posts("lastest");
+        CourseDAO cd = new CourseDAO();
+        List<Course> listFreeCourse = cd.getTop4Courses("free");
+        List<Course> listFeeCourse = cd.getTop4Courses("fee");
         BlogDAO bd = new BlogDAO();
         List<Blog> listBlog = bd.getBlog();
         request.setAttribute("listFreeCourse", listFreeCourse);
@@ -86,6 +88,17 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("numberL", listLastestPost.size());
         request.setAttribute("listSubject", listSubject);
         request.setAttribute("listBlog", listBlog);
+
+        if (request.getParameter("alertUserProfile") != null) {
+            request.setAttribute("alertUserProfile", "Saved Change Successfully");
+        }
+        if (request.getParameter("errorProfile") != null) {
+            request.setAttribute("alertUserProfile", request.getParameter("errorProfile"));
+        }
+
+        SliderDAO sliderdao = new SliderDAO();
+        List<Slider> slider = sliderdao.getAll();
+        request.setAttribute("sliders", slider);
         request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 
     }

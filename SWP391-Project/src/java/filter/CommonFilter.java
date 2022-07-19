@@ -111,13 +111,282 @@ public class CommonFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String url = httpRequest.getServletPath();
-        System.out.println("Path: "+url);
+        String queryString = httpRequest.getQueryString();
+//        System.out.println(queryString);
+//        System.out.println(httpRequest.getRequestURI());
+//        System.out.println("Path: "+url);
         HttpSession session = httpRequest.getSession();
         User u = (User) session.getAttribute("user");
-        if(u == null && ((url.startsWith("/userprofile")) || (url.startsWith("/changepassword"))))
+
+        //Common feature
+        if (u == null && url.startsWith("/userprofile")) //=================Ghep code roi sua==============
         {
-            httpRequest.setAttribute("error_log", "Please login to use this feature!");
+            httpRequest.setAttribute("url", "?url=/project/jsp/user_profile.jsp");
+            httpRequest.setAttribute("err_log", "Please login to use this feature!");
             httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+        }
+        if (u == null && url.startsWith("/changepassword")) {
+            httpRequest.setAttribute("url", "?url=/project/jsp/change_password.jsp");
+            httpRequest.setAttribute("err_log", "Please login to use this feature!");
+            httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+        }
+
+        //Customer feature
+        if (url.startsWith("/myregistration")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/my_registration.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 2)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/mycourse")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/my_course.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 2)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/quizdetail")) {
+            if (u == null) {
+//                httpRequest.setAttribute("queryString", httpRequest.getQueryString());
+                httpRequest.setAttribute("url", "?url=/project/quizdetail?"+httpRequest.getQueryString());
+//                System.out.println("?url=/project/quizdetail?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 2)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/quizresult")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/quizresult?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 2)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/registrationlist")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/registration_list.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 3 && u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/registrationdetail")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/registrationdetail?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 3 && u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/settinglist")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/setting.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/settingdetail")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/settingdetail?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/subjectdetails")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/subjectdetails?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6 && u.getRid() != 5)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/deleteregistration")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/deleteregistration?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 2)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/addnewpricepackage")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/add_new_price_package.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/updatepricepackage")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/updatepricepackage?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/addnewsetting")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/addnewsetting");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/updatesetting")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/updatesetting?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/addnewregistration")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/jsp/addnewregistration.jsp");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6 && u.getRid() != 3)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/editregistration")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/editregistration?"+httpRequest.getQueryString());
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6 && u.getRid() != 3)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
+        }
+        
+        if (url.startsWith("/dashboard")) {
+            if (u == null) {
+                httpRequest.setAttribute("url", "?url=/project/dashboard");
+                httpRequest.setAttribute("err_log", "Please login to use this feature!");
+                httpRequest.getRequestDispatcher("/jsp/account.jsp").forward(request, response);
+            }
+            if(u != null)
+            {
+                if(u.getRid() != 6 && u.getRid() != 4)
+                {
+                    httpResponse.sendRedirect("accessdenied");
+                }
+            }
         }
         
         Throwable problem = null;

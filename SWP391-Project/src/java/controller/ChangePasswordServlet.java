@@ -8,6 +8,9 @@ package controller;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,27 +80,32 @@ public class ChangePasswordServlet extends HttpServlet {
         String newpass = request.getParameter("newpass");
         String cfpass = request.getParameter("cfpass");
         HttpSession ses = request.getSession();
-        User u = (User) ses.getAttribute("user");
+        User u_raw = (User) ses.getAttribute("user");
+        UserDAO ud = new UserDAO();
+        User u = ud.getUser(u_raw.getUemail());
         if (u == null) {
             request.getRequestDispatcher("jsp/change_password.jsp").forward(request, response);
         } else {
-            if (oldpass.equals(u.getUpassword())) {
-                if (newpass.equals(cfpass)) {
-                    UserDAO ud = new UserDAO();
-                    User u2 = new User(u.getUid(), u.getUemail(), newpass, u.getUfullname(), u.getUimg(), u.getGid(), u.getUdob(), u.getUphone(), u.getUaddress(), u.getUwallet());
-//                    User u2 = new User(2, "daotv@gmail.com", newpass, "Tran Van Dao", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/800px-User_icon_2.svg.png", 1, "2001-12-16", "92141718", "Nam Dinh", null);
-                    ud.updateUserPassword(u2);
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", u2);
-                    response.sendRedirect("login");
+            try {
+                if (ud.Encryption(oldpass).equals(u.getUpassword())) {
+                    if (newpass.equals(cfpass)) {
+                        User u2 = new User(u.getUid(), u.getUemail(), ud.Encryption(newpass), u.getUfullname(), u.getUimg(), u.getGid(), u.getUdob(), u.getUphone(), u.getUaddress(), u.getUwallet());
+                        ud.updateUserPassword(u2);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", u2);
+                        request.setAttribute("error", "Change password successfully");
+                        request.getRequestDispatcher("jsp/change_password.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("error", "Confirmation password is incorrect!");
+                        request.getRequestDispatcher("jsp/change_password.jsp").forward(request, response);
+                    }
+
                 } else {
-                    request.setAttribute("error", "Confirmation password is incorrect!");
+                    request.setAttribute("error", "Incorrect password!");
                     request.getRequestDispatcher("jsp/change_password.jsp").forward(request, response);
                 }
-
-            } else {
-                request.setAttribute("error", "Incorrect password!");
-                request.getRequestDispatcher("jsp/change_password.jsp").forward(request, response);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

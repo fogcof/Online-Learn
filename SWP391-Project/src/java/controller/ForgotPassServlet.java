@@ -8,12 +8,17 @@ package controller;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.SendEmail;
+import model.User;
 
 public class ForgotPassServlet extends HttpServlet {
 
@@ -34,7 +39,7 @@ public class ForgotPassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ForgotPassServlet</title>");            
+            out.println("<title>Servlet ForgotPassServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ForgotPassServlet at " + request.getContextPath() + "</h1>");
@@ -72,26 +77,25 @@ public class ForgotPassServlet extends HttpServlet {
         SendEmail se = new SendEmail();
         String email = request.getParameter("email");
         UserDAO ud = new UserDAO();
-        if(ud.checkUser(email) == null){
+        HttpSession ses = request.getSession();
+        if (ud.checkUser(email) == null) {
             request.setAttribute("error", "This email is not registered");
             request.getRequestDispatcher("jsp/reset_password.jsp").forward(request, response);
         } else {
-            Random rand = new Random(); 
-            String abc = "";
-            for (int i = 0; i < 8; i++) abc += rand.nextInt(9);
-            se.Run(email, Integer.parseInt(abc));
-            ud.updateNewPass(email, abc);
-            PrintWriter out = response.getWriter();
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("        <div style=\"margin: 22%;\">\n" +
-                        "            <h1 style=\"font-weight: bold;\">We sent a new password for you. Check your email, please.</h1>\n" +
-                        "        </div>");
-            out.println("</body>");
-            out.println("</html>");
+            try {
+                Random rand = new Random();
+                String abc = "";
+                for (int i = 0; i < 8; i++) {
+                    abc += rand.nextInt(9);
+                }
+                se.resetPW(email, abc);
+                ud.updateNewPass(email, ud.Encryption(abc));
+//                User u = ud.getUser(email);
+//                ses.setAttribute("user", u);
+                response.sendRedirect("login?sendMailResetPW=Done");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ForgotPassServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

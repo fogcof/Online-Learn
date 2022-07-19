@@ -1,9 +1,3 @@
-<%-- 
-    Document   : account
-    Created on : May 28, 2022, 6:23:08 PM
-    Author     : Dell
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -53,7 +47,8 @@
                                     <p style="color: black; background: rgba(255, 0, 0, 0.2); padding: 3px 0; font-weight: bold">${requestScope.err_reg}</p>
                                 </c:if>
                             </div>
-                            <form id="LoginForm" style="text-align: left;" action="login" method="post" class="login-form">
+                            <c:set value="${requestScope.url}" var="url"></c:set>
+                            <form id="LoginForm" style="text-align: left;" action="login${url != null ? url : ""}" method="post" class="login-form">
                                 EMAIL
                                 <input type="email" name="email" placeholder="name@email.com" required value="${cookie.email.value}">
                                 PASSWORD
@@ -73,16 +68,74 @@
                                 <input type="text" name="fname" placeholder="Enter your full name" required>
                                 EMAIL
                                 <input type="email" name="email" placeholder="name@email.com" required>
-                                PASSWORD
-                                <input type="password" name="pass" placeholder="Enter your password" required>
-                                <input type="submit" value="Register">
+                                GENDER
+                                <br/>
+                                <c:forEach items="${genlist}" var="list">
+                                    <input type="radio" name="gen" value="${list.gid}" required>&nbsp;${list.gname}&nbsp;&nbsp;
+                                </c:forEach>                                
+                                    <input class="mt-5" type="submit" value="Register">
                             </form>
+                            <!--fix-->
+                            <button hidden id="myModel" type="button" data-toggle="modal" data-target="#myCf"></button>
+                            <div id="myCf" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="margin-top: 200px">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title" style="color: green">Notification</h3>
+                                            <a href="register" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p style="text-align: left">Registered mail: <i style="color: #3C99DC80; font-weight: bold">${Suc}</i> successfully. Now, checking your mail to verify your account.
+                                                <br/><br/>Please press 'Continue' to confirm your email!</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" aria-hidden="true" class="btn btn-primary" onclick="window.location.href='confirmemail'">Continue</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <!--sendMailResetPW-->
+        <c:if test="${sendMailResetPW != null}">
+            <button hidden id="myModalBt" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"></button>
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Notification</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>COURSERE send new password for you.<br>
+                                <span style="color: red;"><b>Please check your email to get new password.</b></span>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>                                                 
+        </c:if>
     </body>
+    <script>
+        <c:if test="${Suc != null}">
+        window.onload = function () {
+            document.getElementById('myModel').click();
+        }
+        </c:if>
+        <c:if test="${sendMailResetPW != null}">
+        window.onload = function () {
+            document.getElementById('myModalBt').click();
+        }
+        </c:if>
+    </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>

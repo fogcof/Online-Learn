@@ -5,10 +5,12 @@
  */
 package controller;
 
+import dal.GenderDAO;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Gender;
+import model.SendEmail;
 import model.User;
 
 /**
@@ -65,10 +69,13 @@ public class RegisterServlet extends HttpServlet {
 //        processRequest(request, response);
         HttpSession ses = request.getSession();
         User u = (User) ses.getAttribute("user");
+        GenderDAO gd = new GenderDAO();
+        List<Gender> genlist = gd.getAll();
         if (u != null) {
             request.getRequestDispatcher("home").forward(request, response);
         } else {
             request.setAttribute("path", request.getServletPath());
+            request.setAttribute("genlist", genlist);
             request.getRequestDispatcher("jsp/account.jsp").forward(request, response);
         }
     }
@@ -89,21 +96,32 @@ public class RegisterServlet extends HttpServlet {
         String fname = request.getParameter("fname");
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
+        String gen_raw = request.getParameter("gen");
+
         UserDAO ud = new UserDAO();
+        GenderDAO gd = new GenderDAO();
+        List<Gender> genlist = gd.getAll();
         User u = ud.checkUser(email);
+        int gen = Integer.parseInt(gen_raw);
+
         if (u != null) {
             request.setAttribute("err_reg", "Email is exists!");
-            request.setAttribute("path", request.getServletPath());
-            request.getRequestDispatcher("jsp/account.jsp").forward(request, response);
-        } else {
-            User un = new User(email, pass, fname, 4, 2);
-            try {
-                ud.insertUser(un);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect("home");
+        } 
+        else if (ud.isValid(email) == false) {
+            request.setAttribute("err_reg", "Email is invalid!");
+        } 
+        else {
+            String code = SendEmail.getRandom();
+            User un = new User(email, "123@123a", fname, gen, 2);
+            SendEmail.sendVerifyCode(email, fname, code);
+            HttpSession ses  = request.getSession();
+            ses.setAttribute("UserInfo", un);
+            ses.setAttribute("VerifyCode", code);
+            request.setAttribute("Suc", email);
         }
+        request.setAttribute("path", request.getServletPath());
+        request.setAttribute("genlist", genlist);
+        request.getRequestDispatcher("jsp/account.jsp").forward(request, response);
     }
 
     /**

@@ -1,64 +1,16 @@
-/*body {
-    background-image: url("http://surl.li/cdsvp");
-}*/
-/* banner */
-.banner {
-    position: relative;
-    width: 100%;
-}
-/* banner text */
+
 .ban_text {
-    color: #1f1f1f;
-    font-family: "Source Sans Pro", Arial, sans-serif;
-    font-size: 75px;
-    font-weight: 600;
     width: fit-content;
-    margin: 0;
-}
-/* banner image */
-.ban_img {
-    max-width: 450px;
-    max-height: 500px;
-    margin: auto auto;
-    width: 100%;
-}
-
-/* user_banner */
-.user_banner {
-    background-color: #EBF3FF;
-    margin-top: 80px;
-    padding: 15px 0;
-}.user_banner h5 {
-    color: #382B8D; 
-    font-size: 20px; 
-    font-weight: 500
-}
-
-.my_div {
-    height: auto;
-    width: 10px;
+    color: #1f1f1f;
+    font-weight: 600;
+    font-size: 75px;
+    font-family: "Source Sans Pro", Arial, sans-serif;
 }
 .my_text {
     color: #1f1f1f;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-family: "Source Sans Pro",Arial,sans-serif;
     font-weight: 400;
-    margin-top: 24px;
-    margin-bottom: 24px;
-}
-.my_span {
-    font-size: 12px;
-    float: right;
-    font-weight: 600;
+    font-size: 1.25rem;
     font-family: "Source Sans Pro",Arial,sans-serif;
-    width: fit-content;
-    text-decoration: none;
-    color: black;
-    background-color: #FFE057;
-    border-radius: 10px;
-    padding: 2px 15px;
-    vertical-align: middle;
 }
 .my_button {
     background-color: #0056d2;
@@ -73,18 +25,40 @@
     font-size: 15px;
     font-weight: 500;
 }
-
-/* advertise */
-.advertise {
-    width: 100%;
+.my_span {
+    font-size: 12px;
+    float: right;
+    font-weight: 600;
+    font-family: "Source Sans Pro",Arial,sans-serif;
+    width: fit-content;
+    text-decoration: none;
+    color: black;
+    background-color: #FFE057;
+    border-radius: 10px;
+    padding: 2px 15px;
+    vertical-align: middle;
 }
-.advertise h2 {
+
+.user_banner {
+    background-color: #EBF3FF;
+    margin-top: 85px;
+}
+.user_banner a {
+    color: black;
+    text-decoration: none;
+}
+.user_banner h5 {
+    color: #382B8D; 
+    font-size: 20px; 
+    font-weight: 500
+}
+.advertise h3 {
     color: #1f1f1f;
     font-family: "Source Sans Pro",Arial,sans-serif;
     font-weight: 400;
     margin-bottom: 16px;
 }
-.advertise p {
+.advertise h6 {
     color: #1f1f1f;
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -98,9 +72,8 @@
 
 /* course */
 #course {
-    padding: 25px 50px;
+    padding-left: 60px;
 }
-
 .course-title {
     margin: 10px 10px;
     box-sizing: border-box;
@@ -133,7 +106,6 @@
     font-family: Source Sans Pro,Arial,sans-serif;
     font-weight: 700;
 }
-
 .course-detail {
     box-shadow: rgba(31, 31, 31, 0.12) 0px 1px 6px, rgba(31, 31, 31, 0.12) 0px 1px 4px;
     background-color: white;
@@ -144,6 +116,9 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+.course-content {
+    padding-left: 20px;
 }
 .course-content > div{
     cursor: pointer;
@@ -159,5 +134,7 @@
     /*transform: rotate(360deg);*/
     transform: translateY(0px);
 }
-
+.carousel-control-prev:hover, .carousel-control-next:hover{
+    background-color: rgba(255, 0, 0, 0);
+}
 

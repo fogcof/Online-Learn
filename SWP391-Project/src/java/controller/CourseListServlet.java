@@ -87,19 +87,20 @@ public class CourseListServlet extends HttpServlet {
         String cpublic = request.getParameter("public");
 //Paging-------------------------------------------------------------------------------
         String indexRaw = request.getParameter("index");
+        int pageSize = 4;
         int index;
         if (indexRaw == null) {
             index = 1;
         } else {
             index = Integer.parseInt(indexRaw);
         }
-        List<Course> listC = cd.getCourseByFilter(subject, level, lecturer, price, cpublic, search, index);
-
+        List<Course> listC = cd.getCourseByFilter(subject, level, lecturer, price, cpublic, search, index, pageSize);
+        
         int size = cd.getCourseNumber(subject, level, lecturer, price, search);
         if (size == 0) {
             request.setAttribute("error", "NOT FOUND");
         } else {
-            int endPage = size % 4 == 0 ? size / 4 : size / 4 + 1;
+            int endPage = size % pageSize == 0 ? size / pageSize : size / pageSize + 1;
             request.setAttribute("listCourse", listC);
             request.setAttribute("endPage", endPage);
             request.setAttribute("index", index);
@@ -118,8 +119,19 @@ public class CourseListServlet extends HttpServlet {
         request.setAttribute("listLevel", listLevel);
         request.setAttribute("listLec", listLec);
         request.setAttribute("listBlog", listBlog);
+
+        request.setAttribute("listF", cd.getFeaturedCourse());
+        
+        //userprofile
+        if (request.getParameter("alertUserProfile") != null) {
+            request.setAttribute("alertUserProfile", "Saved Change Successfully");
+        }
+        if (request.getParameter("errorProfile") != null)
+            request.setAttribute("alertUserProfile", request.getParameter("errorProfile"));
+
         request.getRequestDispatcher("jsp/course_list.jsp").forward(request, response);
     }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *

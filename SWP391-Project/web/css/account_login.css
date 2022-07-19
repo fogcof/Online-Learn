@@ -77,6 +77,11 @@ body{
 }
 
 /* login and register */
+/*style type radio*/
+#RegForm input[type="radio"] { 
+    width: auto;
+    height: auto;
+}
 
 input[type="submit"] {
     cursor: pointer;

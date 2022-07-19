@@ -9,7 +9,6 @@ import dal.BlogDAO;
 import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -81,7 +80,7 @@ public class BlogListServlet extends HttpServlet {
         if (bid != 0 && key.equals("")) {
             list1 = pd.getPostByBlogID(bid);
         }
-        if(!key.equals("")){
+        if (!key.equals("")) {
             list1 = pd.searchPost(key);
         }
         List<Post> listTop3 = pd.getTop3Post();
@@ -107,6 +106,13 @@ public class BlogListServlet extends HttpServlet {
         request.setAttribute("page", page);
         request.setAttribute("num", num);
         request.setAttribute("bid", bid);
+
+        if (request.getParameter("alertUserProfile") != null) {
+            request.setAttribute("alertUserProfile", "Saved Change Successfully");
+        }
+        if (request.getParameter("errorProfile") != null)
+            request.setAttribute("alertUserProfile", request.getParameter("errorProfile"));
+
         request.getRequestDispatcher("jsp/blog_list.jsp").forward(request, response);
 
     }

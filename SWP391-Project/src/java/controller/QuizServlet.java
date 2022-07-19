@@ -5,9 +5,11 @@
  */
 package controller;
 
+import dal.BlogDAO;
 import dal.CourseDAO;
 import dal.QuestionDAO;
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
@@ -71,9 +73,11 @@ public class QuizServlet extends HttpServlet {
         String quesid = request.getParameter("quesid");
         String answer = request.getParameter("answer");
         String previous = request.getParameter("previous");
-
+        QuestionDAO quesdao = new QuestionDAO();
+        
+        int check = quesdao.getTop1QuesIdByQuizId(qid);//editttttttt
         if (quesid == null) {
-            quesid = "1";
+            quesid = String.valueOf(check%10);//edittttttttttttt
         }
 
         if (answer == null || answer.equals("")) {
@@ -93,9 +97,7 @@ public class QuizServlet extends HttpServlet {
         QuizDAO quizdao = new QuizDAO();
         Quiz quiz = quizdao.getQuizById(qid);
 
-        QuestionDAO quesdao = new QuestionDAO();
-        Question ques = quesdao.getQuestionById(quesid);
-
+        Question ques = quesdao.getQuestionById(String.valueOf(Integer.parseInt(quesid)+(check/10)*10));// edittttttt
         int numques = quesdao.getNumQuestionByQid(qid);
 
         String listans = "";
@@ -109,8 +111,8 @@ public class QuizServlet extends HttpServlet {
                     listFlag += "|";
                 }
             }
-            HttpSession session=request.getSession();
-            session.setAttribute("time", new Date().getTime()+0.5*60*60*1000);
+            HttpSession session = request.getSession();
+            session.setAttribute("time", new Date().getTime() + 30 * 60 * 1000);
         } else {
             Cookie[] cookies = request.getCookies();
             for (Cookie cooky : cookies) {
@@ -148,7 +150,9 @@ public class QuizServlet extends HttpServlet {
 //        request.setAttribute("answer", answer);
         request.setAttribute("listans", listans);
         request.setAttribute("listFlag", listFlag);
-        
+
+        request.setAttribute("listSubject", new SubjectDAO().getAll());
+        request.setAttribute("listBlog", new BlogDAO().getBlog());
         request.getRequestDispatcher("jsp/quiz.jsp").forward(request, response);
 
     }

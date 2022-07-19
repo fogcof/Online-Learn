@@ -49,6 +49,7 @@
             border: 1px solid #ccc;
         }
 
+
         #Indicator {
             width: 100px;
             border: none;
@@ -81,6 +82,7 @@
                                             CONFIRM NEW PASSWORD
                                             <input type="password" name="cfpass" placeholder="Confirm new password" required>
                                             <input type="submit" value="Change now">
+                                            <input type="button" onclick="Home()" value="Home">
                                         </form>
                                     </div>
                                 </div>
@@ -90,8 +92,15 @@
                 </div>
             </div>
         </div>
+        
+        <script >
+            function Home(){
+                window.location = "home";
+            }
+        </script>
    
 </body>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

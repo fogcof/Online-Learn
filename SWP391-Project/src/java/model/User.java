@@ -22,6 +22,8 @@ public class User {
     String uaddress;
     String uwallet;
     int rid;
+    String utime;
+    boolean ustatus;
 
     public User() {
     }
@@ -48,7 +50,7 @@ public class User {
         this.gid = gid;
     }
 
-    public User(int uid, String uemail, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet) {
+    public User(int uid, String uemail, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet, int rid) {
         this.uid = uid;
         this.uemail = uemail;
         this.ufullname = ufullname;
@@ -58,6 +60,7 @@ public class User {
         this.uphone = uphone;
         this.uaddress = uaddress;
         this.uwallet = uwallet;
+        this.rid = rid;
     }
 
     public User(int uid, String uemail, String upassword, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet, int rid) {
@@ -73,6 +76,53 @@ public class User {
         this.uwallet = uwallet;
         this.rid = rid;
     }
+
+    public User(int uid, String uemail, String upassword, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet, int rid, String utime) {
+        this.uid = uid;
+        this.uemail = uemail;
+        this.upassword = upassword;
+        this.ufullname = ufullname;
+        this.uimg = uimg;
+        this.gid = gid;
+        this.udob = udob;
+        this.uphone = uphone;
+        this.uaddress = uaddress;
+        this.uwallet = uwallet;
+        this.rid = rid;
+        this.utime = utime;
+    }
+    
+    public User(int uid, String uemail, String upassword, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet, int rid, boolean ustatus) {
+        this.uid = uid;
+        this.uemail = uemail;
+        this.upassword = upassword;
+        this.ufullname = ufullname;
+        this.uimg = uimg;
+        this.gid = gid;
+        this.udob = udob;
+        this.uphone = uphone;
+        this.uaddress = uaddress;
+        this.uwallet = uwallet;
+        this.rid = rid;
+        this.ustatus = ustatus;
+    }
+
+    public User(int uid, String uemail, String upassword, String ufullname, String uimg, int gid, String udob, String uphone, String uaddress, String uwallet, int rid, String utime, boolean ustatus) {
+        this.uid = uid;
+        this.uemail = uemail;
+        this.upassword = upassword;
+        this.ufullname = ufullname;
+        this.uimg = uimg;
+        this.gid = gid;
+        this.udob = udob;
+        this.uphone = uphone;
+        this.uaddress = uaddress;
+        this.uwallet = uwallet;
+        this.rid = rid;
+        this.utime = utime;
+        this.ustatus = ustatus;
+    }
+    
 
     public int getUid() {
         return uid;
@@ -160,6 +210,22 @@ public class User {
 
     public void setRid(int rid) {
         this.rid = rid;
+    }
+
+    public String getUtime() {
+        return utime;
+    }
+
+    public void setUtime(String utime) {
+        this.utime = utime;
+    }
+
+    public boolean isUstatus() {
+        return ustatus;
+    }
+
+    public void setUstatus(boolean ustatus) {
+        this.ustatus = ustatus;
     }
 
 }

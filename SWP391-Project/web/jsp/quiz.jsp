@@ -14,20 +14,67 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Quiz Handle</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style type="text/css">
+            <%@include file="../css/header.css"%>
+            <%@include file="../css/footer.css"%>
             <%@include file="../css/quiz.css"%>
         </style>
     </head>
 
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
+            <a class="navbar-brand" href="#" onclick="Finish()">&nbsp;&nbsp;&nbsp;COURSERE</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <c:forEach items="${listBlog}" var="lb">
+                        <li class="nav-item mr-2 ">
+                            <a style="margin: 3px 0 0 0" class="nav-link" href="#" onclick="Finish()">${lb.bname}</a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${sessionScope.user == null}">
+                        <li class="nav-item ml-5 mr-4">
+                            <a class="nav-link" style="border: 1px solid black;" href="login" >ACCOUNT</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${sessionScope.user != null}">   
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                aria-expanded="false"
+                                >
+                                <c:if test="${sessionScope.user.uimg != null}">
+                                    <img src="images/avatar/${sessionScope.user.uimg}" style="background-color: #3BAFDA; width: 37px; border-radius: 50%;">
+                                </c:if>
+                                <c:if test="${sessionScope.user.uimg == null}">
+                                    <img id="img1" src="images/avatar/default.jpg" alt="avatar user" style="height: 37px; width: 37px; border-radius: 50%;">
+                                </c:if>
+                                <span class="pl-1">${sessionScope.user.ufullname}</span>
+                            </a>
+                            <div class="dropdown-menu mt-0" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="mycourse" title="My Course">My Course</a>
+                                <a class="dropdown-item" href="myregistration" title="My Registration">My Registration</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target=".bd-example-modal-lg" title="Profile">Profile</a>
+                                <div class="dropdown-divider"></div> 
+                                <a class="dropdown-item" href="changepassword" title="Change Password">Change Password</a>
+                                <a class="dropdown-item" href="logout" title="Logout">Logout</a>
+                            </div>
+                        </li>
+                    </c:if> 
+                </ul>
+            </div>
+        </nav>
 
-        <section id="quiz-title" class="container-fluid mb-3 row mx-auto">
+        <section id="quiz-title" class="container-fluid mb-3 row mx-auto" style="margin-top: 78px">
             <div class="quiz-title-detail col-12 py-3">
                 <h3>${course.cname} - ${course.cid}</h3>
                 <div class="quiz-link">
@@ -43,34 +90,6 @@
         </section>
         <section id="quiz-content" class="container-fluid row mx-auto">
             <div class="quiz-question col-lg-9 col-12">
-                <!--                            <table class="generaltable quizreviewsummary">
-                                                <tbody>
-                                                  <tr>
-                                                    <th class="cell" scope="row">Start on</th>
-                                                    <td class="cell">Friday, 10 June 2022, 2:20 PM</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th class="cell" scope="row">State</th>
-                                                    <td class="cell">Finished</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th class="cell" scope="row">Completed on</th>
-                                                    <td class="cell">Friday, 10 June 2022, 2:21 PM</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th class="cell" scope="row">Time taken</th>
-                                                    <td class="cell">1 min 16 secs</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th class="cell" scope="row">Marks</th>
-                                                    <td class="cell">0.00/15.00</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <th class="cell" scope="row">Grade</th>
-                                                    <td class="cell"><b>0.00</b> out of 10.00 (<b>0</b>%)</td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>-->
                 <div class="row quiz-question-detail">
                     <c:forEach items="${fn:split(listans, ',')}" var="ans">
                         <c:if test="${quesid==fn:split(ans, ':')[0]}">
@@ -78,7 +97,7 @@
                         </c:if>
                     </c:forEach>
                     <div class="col-2 question-num py-5" style="border-top: 2px solid black;">
-                        <h4>Question ${ques.quesid}</h4>
+                        <h4>Question ${ques.quesid%10==0?"10":ques.quesid%10}</h4>
                         <p>${preans!=0?"Answer saved":"Not yet answered"}</p>
                         <p>Marked out of 1.00</p>
                         <p onclick="Flag()"><i class="fa-solid fa-flag"></i> <span id="flag" style="cursor: pointer">
@@ -139,7 +158,45 @@
                 </div>
             </div>
         </section>
-
+        <footer class="pt-1 pb-4">
+            <hr class="mb-5">
+            <div class="row container mx-auto">
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <h5 class="mb-3">COURSERE</h5>
+                    <p class="pt-2" style="color: #373A3C;font-size: 14px;">Get the in-demand skills you need to grow
+                        professionally. Choose
+                        any SkillSet that
+                        aligns with your learning goals.
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <h5 class="mb-3">SUBJECT</h5>
+                    <ul style="list-style: none;padding-left: 0;">
+                        <c:forEach items="${listSubject}" var="lists">
+                            <li><a href="#" onclick="Finish()">${lists.sname}</a></li>
+                            </c:forEach>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <h5 class="mb-3">BLOG</h5>
+                    <ul style="list-style: none;padding-left: 0;">
+                        <c:forEach items="${listBlog}" var="lb">
+                            <li><a href="#" onclick="Finish()">${lb.bname}</a></li>
+                            </c:forEach>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <h5 class="mb-3">CONTACT</h5>
+                    <ul class="row" style="list-style: none;padding-left: 0;">
+                        <li class="col-4"><a href="#" onclick="Finish()"><i class="fa-brands fa-facebook"></i></a></li>
+                        <li class="col-4"><a href="#" onclick="Finish()"><i class="fa-brands fa-linkedin"></i></a></li>
+                        <li class="col-4"><a href="#" onclick="Finish()"><i class="fa-brands fa-twitter"></i></a></li>
+                        <li class="col-4"><a href="#" onclick="Finish()"><i class="fa-brands fa-youtube"></i></a></li>
+                        <li class="col-4"><a href="#" onclick="Finish()"><i class="fa-brands fa-instagram-square"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </body>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -162,8 +219,8 @@
                             }
                             document.cookie = name + "=" + value + expires + "; path=/project";
                         }
-//                                var sId = '00';
-//                                writeCookie('cookieFlag', sId, 1);
+                        //                                var sId = '00';
+                        //                                writeCookie('cookieFlag', sId, 1);
                         function readCookie(name) {
                             var i, c, ca, nameEQ = name + "=";
                             ca = document.cookie.split(';');
@@ -216,7 +273,7 @@
                                     }
                                 }
                             }
-                            if (a != 0) {
+                            if (${preans} != 0) {
                                 document.getElementsByClassName('a')[${quesid-1}].style.backgroundColor = "#acc6da";
                             }
                             writeCookie('listFlag', newFlags, 1);
@@ -294,7 +351,7 @@
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("time").innerHTML = "EXPIRED";
-                window.location="finish?qid=${quiz.qid}";
+                window.location = "finish?qid=${quiz.qid}";
             }
         }, 1000);
 

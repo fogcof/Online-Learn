@@ -16,6 +16,7 @@ public class Quiz {
     String cid;
     int tid;
     int sid;
+    boolean qstatus;
 
     public Quiz() {
     }
@@ -28,6 +29,17 @@ public class Quiz {
         this.tid = tid;
         this.sid = sid;
     }
+
+    public Quiz(int qid, String qname, String qdesc, String cid, int tid, int sid, boolean qstatus) {
+        this.qid = qid;
+        this.qname = qname;
+        this.qdesc = qdesc;
+        this.cid = cid;
+        this.tid = tid;
+        this.sid = sid;
+        this.qstatus = qstatus;
+    }
+    
 
     public int getQid() {
         return qid;
@@ -75,6 +87,14 @@ public class Quiz {
 
     public void setSid(int sid) {
         this.sid = sid;
+    }
+
+    public boolean isQstatus() {
+        return qstatus;
+    }
+
+    public void setQstatus(boolean qstatus) {
+        this.qstatus = qstatus;
     }
 
    

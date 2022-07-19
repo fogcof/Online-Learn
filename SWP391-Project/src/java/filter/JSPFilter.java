@@ -125,6 +125,86 @@ public class JSPFilter implements Filter {
             httpResponse.sendRedirect("/project/changepassword");
             return;
         }
+        else if(url.endsWith("my_registration.jsp"))
+        {
+            httpResponse.sendRedirect("/project/myregistration");
+            return;
+        }
+        else if(url.endsWith("my_course.jsp"))
+        {
+            httpResponse.sendRedirect("/project/mycourse");
+            return;
+        }
+        else if(url.endsWith("quiz_detail.jsp"))
+        {
+            httpResponse.sendRedirect("/project/quizdetail");
+            return;
+        }
+        else if(url.endsWith("quiz_result.jsp"))
+        {
+            httpResponse.sendRedirect("/project/quizresult");
+            return;
+        }
+        else if(url.endsWith("registration_list.jsp"))
+        {
+            httpResponse.sendRedirect("/project/registrationlist");
+            return;
+        }
+        else if(url.endsWith("registration_detail.jsp"))
+        {
+            httpResponse.sendRedirect("/project/registrationdetail");
+            return;
+        }
+        else if(url.endsWith("setting.jsp"))
+        {
+            httpResponse.sendRedirect("/project/settinglist");
+            return;
+        }
+        else if(url.endsWith("setting_detail.jsp"))
+        {
+            httpResponse.sendRedirect("/project/settingdetail");
+            return;
+        }
+        else if(url.endsWith("subject_detail.jsp"))
+        {
+            httpResponse.sendRedirect("/project/subjectdetails");
+            return;
+        }
+        else if(url.endsWith("access_denied.jsp"))
+        {
+            httpResponse.sendRedirect("/project/accessdenied");
+            return;
+        }
+        else if(url.endsWith("add_new_price_package.jsp"))
+        {
+            httpResponse.sendRedirect("/project/addnewpricepackage");
+            return;
+        }
+        else if(url.endsWith("updatepackageprice.jsp"))
+        {
+            httpResponse.sendRedirect("/project/updatepricepackage");
+            return;
+        }
+//        else if(url.endsWith("add_new_setting.jsp"))
+//        {
+//            httpResponse.sendRedirect("/project/addnewsetting");
+//            return;
+//        }
+        else if(url.endsWith("update_setting.jsp"))
+        {
+            httpResponse.sendRedirect("/project/updatesetting");
+            return;
+        }
+        else if(url.endsWith("addnewregistration.jsp"))
+        {
+            httpResponse.sendRedirect("/project/addnewregistration");
+            return;
+        }
+        else if(url.endsWith("edit_registration.jsp"))
+        {
+            httpResponse.sendRedirect("/project/editregistration");
+            return;
+        }
 //        else
 //        {
 //            chain.doFilter(request, response);

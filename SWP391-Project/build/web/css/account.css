@@ -75,5 +75,13 @@ body{
     transform: translateX(-50px);
     transition: transform 1s;
 }
+/*type submit, button hover*/
+input[type="submit"], input[type="button"] { 
+    cursor: pointer;
+}
 
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: blueviolet;
+    color: white;
+}
 /* login and register */

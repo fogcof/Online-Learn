@@ -40,7 +40,7 @@ public class BlogDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlogDetailServlet</title>");            
+            out.println("<title>Servlet BlogDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet BlogDetailServlet at " + request.getContextPath() + "</h1>");
@@ -61,12 +61,12 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id_raw=request.getParameter("id");
+        String id_raw = request.getParameter("id");
         int id;
-        if(id_raw==null) {
-            id=0;
-        }else{
-            id= Integer.parseInt(id_raw); 
+        if (id_raw == null) {
+            id = 0;
+        } else {
+            id = Integer.parseInt(id_raw);
         }
         PostDAO pd = new PostDAO();
         BlogDAO bd = new BlogDAO();
@@ -76,6 +76,13 @@ public class BlogDetailServlet extends HttpServlet {
         request.setAttribute("listBlog", listBlog);
         request.setAttribute("blogdetail", p);
         request.setAttribute("listRelate", listRelate);
+
+        if (request.getParameter("alertUserProfile") != null) {
+            request.setAttribute("alertUserProfile", "Saved Change Successfully");
+        }
+        if (request.getParameter("errorProfile") != null)
+            request.setAttribute("alertUserProfile", request.getParameter("errorProfile"));
+
         request.getRequestDispatcher("jsp/blog_detail.jsp").forward(request, response);
     }
 

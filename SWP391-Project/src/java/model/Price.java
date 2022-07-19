@@ -17,6 +17,8 @@ public class Price {
     String packname;
     int duration;
     boolean packstatus;
+    float multiple;
+    String description;
 
     public Price() {
     }
@@ -26,6 +28,15 @@ public class Price {
         this.packname = packname;
         this.duration = duration;
         this.packstatus = packstatus;
+    }
+    
+    public Price(int packid, String packname, int duration, boolean packstatus, float multiple, String description) {
+        this.packid = packid;
+        this.packname = packname;
+        this.duration = duration;
+        this.packstatus = packstatus;
+        this.multiple = multiple;
+        this.description = description;
     }
 
     public int getPackid() {
@@ -58,6 +69,22 @@ public class Price {
 
     public void setPackstatus(boolean packstatus) {
         this.packstatus = packstatus;
+    }
+    
+    public float getMultiple() {
+        return multiple;
+    }
+
+    public void setMultiple(float multiple) {
+        this.multiple = multiple;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static void main(String[] args) {

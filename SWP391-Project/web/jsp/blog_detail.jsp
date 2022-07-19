@@ -25,26 +25,11 @@
     <body>
         <jsp:include page="header.jsp"/>
 
-        <nav class="body row d-flex justify-content-center">
+        <nav class="body row container-fluid d-flex justify-content-center" style="margin-top: 90px;">
 
-            <nav class="navbar navbar-expand-lg navbar-light w-75" style="margin-top: 120px;">
-                <a class="navbar-brand" href="bloglist" style=" display: flex;">
-                    <h4 class="text-dark">Coursere </h4>
-                    <h4 class="ml-1 font-weight-bold text-dark">Blog</h4>
-                </a>
-                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent2"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-                <form action="bloglist" method="get" class="form-inline my-2 my-lg-8 ml-auto">
-                    <input name="searchBlog" class="form-control mr-sm-2" type="search" placeholder="Search in Blog" aria-label="Search" style="width: 350px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                </div>
-            </nav>
 
-            <div class="body col-9 ">
+
+            <div class="body col-11 ">
 
 
 
@@ -71,6 +56,7 @@
                     </div>
 
                     <div class="body_content_postrelate col-4 ">
+                        <h5 class="ml-4">Related Posts</h5>
                         <c:forEach items="${requestScope.listRelate}" var="bl2" >
                             <div class="mt-3 ml-4">
                                 <a href="blogdetail?id=${bl2.poid}" style="text-decoration: none;">
@@ -81,15 +67,16 @@
                     </div>
                 </div>
 
-                <div class="body_content_desc mt-5 col-8 p-0">
+                <div class="body_content_desc mt-5 col-11 p-0">
                     ${bld.podesc}
                 </div>
 
 
-
+                <!--<button class="mt-5 btn btn-outline-primary" onclick="window.location= 'bloglist'">Back to Blog</button>-->
+                <input class="mt-5 btn btn-primary" type="button" value="Back to Blog" onclick="window.location= 'bloglist'">
             </div>
-
-
+                
+                
         </nav>
 
         <jsp:include page="footer.jsp"/>
